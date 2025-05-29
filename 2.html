@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Login</title>
+    <style>
+        /* Global Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+            body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+
+}
+
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
+          }
+          20% {
+            background-position: 100% 50%;
+            background: linear-gradient(135deg, #8338ec 0%, #3a86ff 25%, #06ffa5 50%, #ffbe0b 75%, #ff006e 100%);
+          }
+          40% {
+            background-position: 0% 100%;
+            background: linear-gradient(135deg, #3a86ff 0%, #06ffa5 25%, #ffbe0b 50%, #ff006e 75%, #8338ec 100%);
+          }
+          60% {
+            background-position: 100% 100%;
+            background: linear-gradient(135deg, #06ffa5 0%, #ffbe0b 25%, #ff006e 50%, #8338ec 75%, #3a86ff 100%);
+          }
+          80% {
+            background-position: 50% 0%;
+            background: linear-gradient(135deg, #ffbe0b 0%, #ff006e 25%, #8338ec 50%, #3a86ff 75%, #06ffa5 100%);
+          }
+          100% {
+            background-position: 0% 50%;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
+          }
+        }
+
+        /* Animated Background Particles */
+        .particles {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .particle {
+          position: absolute;
+          font-size: 50px;
+          animation: float 6s infinite linear;
+          user-select: none;
+          pointer-events: none;
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(100vh) translateX(0) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-10vh) translateX(100px) rotate(360deg);
+            opacity: 0;
+          }
+        }
+
+        /* Background Overlay with Glowing Effect */
+        body::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(45, 45, 45, 0.1) 0%, rgba(0, 0, 0, 0.3) 70%);
+          filter: blur(1000px);
+          z-index: 0;
+          animation: glow 4s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+          0%, 100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            transform: scale(1.2) rotate(180deg);
+            opacity: 0.6;
+          }
+        }
+
+        /* Login Container */
+        .login-container {
+          position: relative;
+          z-index: 10;
+          width: 360px;
+          padding: 50px 40px;
+          background: rgba(15, 15, 25, 0.95);
+          border-radius: 20px;
+          border: 1px solid rgba(0, 255, 255, 0.3);
+          backdrop-filter: blur(20px);
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(255, 255, 255, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          overflow: hidden;
+        }
+
+        .login-container::before {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+          background: linear-gradient(45deg, 
+            #00fff3, #00ff9a, #0ff, #ff0080, #8000ff, #00fff3);
+          background-size: 400% 400%;
+          border-radius: inherit;
+          z-index: -1;
+          animation: borderFlow 4s linear infinite;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .login-container:hover::before {
+          opacity: 1;
+        }
+
+        .login-container:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 
+            0 20px 40px rgba(0, 255, 255, 0.2),
+            0 0 60px rgba(0, 255, 123, 0.3);
+        }
+
+        @keyframes borderFlow {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        .login-container h2 {
+          text-align: center;
+          background: linear-gradient(135deg, #00fff3 0%, #00ff9a 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 40px;
+          font-size: 2.2rem;
+          font-weight: 300;
+          letter-spacing: 2px;
+          animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+          0% {
+            filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
+          }
+          100% {
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.8));
+          }
+        }
+
+        .tagline {
+          text-align: center;
+          color: #888;
+          font-size: 0.9rem;
+          margin-top: -30px;
+          margin-bottom: 35px;
+          letter-spacing: 1px;
+          font-weight: 300;
+        }
+
+        .form-group {
+          position: relative;
+          margin-bottom: 25px;
+        }
+
+        .login-container input {
+          width: 100%;
+          padding: 18px 20px;
+          background: rgba(30, 30, 40, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          outline: none;
+          border-radius: 12px;
+          font-size: 1rem;
+          color: #fff;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .login-container input:focus {
+          border-color: #00fff3;
+          box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
+          background: rgba(30, 30, 40, 0.95);
+        }
+
+        .login-container input::placeholder {
+          color: #888;
+          transition: color 0.3s ease;
+        }
+
+        .login-container input:focus::placeholder {
+          color: #aaa;
+        }
+
+        .checkbox-group {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          color: #aaa;
+          font-size: 0.9rem;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+          display: none;
+        }
+
+        .checkmark {
+          width: 18px;
+          height: 18px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+          margin-right: 12px;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .checkbox-label:hover .checkmark {
+          border-color: #00fff3;
+        }
+
+        .checkbox-label input:checked + .checkmark {
+          background: linear-gradient(135deg, #00fff3, #00ff9a);
+          border-color: #00fff3;
+        }
+
+        .checkbox-label input:checked + .checkmark::after {
+          content: '✓';
+          position: absolute;
+          color: #111;
+          font-size: 12px;
+          font-weight: bold;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .login-container button {
+          width: 100%;
+          padding: 18px;
+          margin-top: 30px;
+          border: none;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #00fffc 0%, #00ff99 100%);
+          color: #111;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .login-container button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+          transition: left 0.5s;
+        }
+
+        .login-container button:hover::before {
+          left: 100%;
+        }
+
+        .login-container button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+          background: linear-gradient(135deg, #00ff99 0%, #00fffc 100%);
+        }
+
+        .login-container button:active {
+          transform: translateY(0);
+          box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Social Login */
+        .social-login {
+          margin-top: 30px;
+          text-align: center;
+        }
+
+        .social-login p {
+          color: #888;
+          margin-bottom: 20px;
+          font-size: 0.9rem;
+        }
+
+        .social-buttons {
+          display: flex;
+          gap: 15px;
+          justify-content: center;
+        }
+
+        .social-btn {
+          width: 50px;
+          height: 50px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          background: rgba(30, 30, 40, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .social-btn:hover {
+          border-color: #00fff3;
+          background: rgba(0, 255, 255, 0.1);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .social-btn svg {
+          width: 24px;
+          height: 24px;
+          fill: #888;
+          transition: fill 0.3s ease;
+        }
+
+        .social-btn:hover svg {
+          fill: #00fff3;
+        }
+
+        /* Forgot Password */
+        .forgot-password {
+          text-align: center;
+          margin-top: 25px;
+        }
+
+        .forgot-password a {
+          color: #888;
+          text-decoration: none;
+          font-size: 0.9rem;
+          transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+          color: #00fff3;
+        }
+
+        /* Loading Animation */
+        .loading {
+          display: none;
+          width: 20px;
+          height: 20px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          border-top-color: #00fff3;
+          animation: spin 1s ease-in-out infinite;
+          margin: 0 auto;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Success Message */
+        .success-message {
+          display: none;
+          text-align: center;
+          color: #00ff99;
+          margin-top: 20px;
+          font-size: 0.9rem;
+          animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+          .login-container {
+            width: 90%;
+            padding: 40px 30px;
+          }
+          
+          .login-container h2 {
+            font-size: 1.8rem;
+          }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <h2>LOGIN</h2>
+        <p class="tagline">Welcome to the future</p>
+        
+        <form>
+            <div class="form-group">
+                <input type="email" placeholder="Email Address" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" placeholder="Password" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+            </div>
+            
+            <button type="submit">Sign In</button>
+            
+            <div class="loading"></div>
+            <div class="success-message">Login successful!</div>
+        </form>
+        
+        <div class="social-login">
+            <p>Or continue with</p>
+            <div class="social-buttons">
+                <div class="social-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    </svg>
+                </div>
+                <div class="social-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </div>
+                <div class="social-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating emoji particles
+        const emojis = ['😘', '😊', '😂', '👍', '🙌', '😒', '👌', '😎', '😢', '💖', '🎶', '😜', '🤩', '🥰', '🤨', '😶‍🌫️', '😏', '😣', '😥', '🤗', '💁‍♂️', '', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎', '😎'];
+        const particlesContainer = document.getElementById('particles');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            // Random horizontal position
+            particle.style.left = Math.random() * 100 + 'vw';
+            
+            // Random animation duration between 4-8 seconds
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            
+            // Random delay
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            
+            particlesContainer.appendChild(particle);
+            
+            // Remove particle after animation completes
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 8000);
+        }
+
+        // Create particles continuously
+        setInterval(createParticle, 300);
+
+        // Form submission handling
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const button = document.querySelector('button');
+            const loading = document.querySelector('.loading');
+            const successMessage = document.querySelector('.success-message');
+            
+            button.style.display = 'none';
+            loading.style.display = 'block';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    button.style.display = 'block';
+                    successMessage.style.display = 'none';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
